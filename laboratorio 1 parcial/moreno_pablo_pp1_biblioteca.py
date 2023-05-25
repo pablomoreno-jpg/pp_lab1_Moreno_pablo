@@ -1,6 +1,5 @@
 import re
 import json
-import csv
 
 
 def validar_numero_ingresado(numero:str) -> bool:
@@ -333,7 +332,7 @@ def validar_nombre_ingresado(lista_jugadores:list,nombre:str) -> int :
 
     return -1
     
-def buscar_y_mostrar_estadisticas(lista_jugadores:list) -> None:
+def buscar_y_mostrar_logros(lista_jugadores:list) -> None:
 
     mostrar_nombre_y_o_inidece(lista_jugadores)
 
@@ -353,16 +352,70 @@ def buscar_y_mostrar_estadisticas(lista_jugadores:list) -> None:
 
         print("no se encontro el jugador que se ingreso")
 
+#5
+def ordenamietno_por_dato_estadistico(lista_jugadores:list,dato:str,creciente= True) -> list:
+
+    copia_lista = lista_jugadores[:]
+
+    if len(copia_lista) > 0:
+
+        ordenamiento = True
+
+        while ordenamiento:
+
+            ordenamiento = False
+
+            for indec in range(len(copia_lista) -1):
+
+                if creciente:
+
+                    if copia_lista[indec]["estadisticas"][dato] > copia_lista[indec+1]["estadisticas"][dato]:
+                        
+                        ordenamiento = True
+
+                        copia_lista[indec],copia_lista[indec+1] = copia_lista[indec+1],copia_lista[indec]
+
+                else:
+
+                    if copia_lista[indec]["estadisticas"][dato] < copia_lista[indec+1]["estadisticas"][dato]:
+                        
+                        ordenamiento = True
+
+                        copia_lista[indec],copia_lista[indec+1] = copia_lista[indec+1],copia_lista[indec]
+
+    return copia_lista
+#6
+def buscar_miembre_del_salon_de_la_fama(lista_jugadores:list):
+
+    pertencia = False
+
+    mostrar_nombre_y_o_inidece(lista_jugadores)
+
+    nombre = input("ingrese el nombre del jugdor que quierea buscar en el salon de la fama del baloncesto: ")
+
+    indec =  validar_nombre_ingresado(lista_jugadores,nombre)
+
+    if indec > -1:
+
+        for logro in lista_jugadores[indec]["logros"]:
+
+            if re.search(r'(Miembro del Salon de la Fama del Baloncesto)$',logro):
+
+                pertencia = True
+
+        if pertencia:
+
+            print("el jugador pertence al salon de la fama del balocesto")
+
+        else:
+
+            print("el jugador no petence al salon de la fama")
 
 
+lista_nba = leer_archivo_json(r"C:\Users\pablo\OneDrive\Escritorio\python - ejercicios\laboratorio 1 parcial\dt.json")
 
 
-
-
-
-
-
-
+buscar_miembre_del_salon_de_la_fama(lista_nba)
 
 
 
