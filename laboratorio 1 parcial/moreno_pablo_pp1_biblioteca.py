@@ -353,7 +353,29 @@ def buscar_y_mostrar_logros(lista_jugadores:list) -> None:
         print("no se encontro el jugador que se ingreso")
 
 #5
-def ordenamietno_por_dato_estadistico(lista_jugadores:list,dato:str,creciente= True) -> list:
+
+def calcular_promedio_de_lista(lista_jugadores:list,dato:str) -> float:
+
+    prmedio = 0
+
+    if len(lista_jugadores) > 0:
+
+        suma = 0
+
+        contador = 0
+
+        for indec in range(len(lista_jugadores)):
+
+            suma += lista_jugadores[indec]["estadisticas"][dato]
+
+            contador += 1
+
+
+        prmedio = suma/ contador
+
+    return prmedio
+
+def ordenar_nombres(lista_jugadores:list) -> list:
 
     copia_lista = lista_jugadores[:]
 
@@ -367,23 +389,30 @@ def ordenamietno_por_dato_estadistico(lista_jugadores:list,dato:str,creciente= T
 
             for indec in range(len(copia_lista) -1):
 
-                if creciente:
+                if copia_lista[indec]["nombre"] > copia_lista[indec+1]["nombre"]:
+                    
+                    ordenamiento = True
 
-                    if copia_lista[indec]["estadisticas"][dato] > copia_lista[indec+1]["estadisticas"][dato]:
-                        
-                        ordenamiento = True
+                    copia_lista[indec],copia_lista[indec+1] = copia_lista[indec+1],copia_lista[indec]
 
-                        copia_lista[indec],copia_lista[indec+1] = copia_lista[indec+1],copia_lista[indec]
-
-                else:
-
-                    if copia_lista[indec]["estadisticas"][dato] < copia_lista[indec+1]["estadisticas"][dato]:
-                        
-                        ordenamiento = True
-
-                        copia_lista[indec],copia_lista[indec+1] = copia_lista[indec+1],copia_lista[indec]
+             
 
     return copia_lista
+
+def mostrar_promedio_del_equipo(lista_jugadores:list) -> None:
+
+    if len(lista_jugadores) > 0:
+
+        promedio = calcular_promedio_de_lista(lista_jugadores,"promedio_puntos_por_partido")
+        
+        print("el promedio de puntos por partido (promedio pp) de todo el equipo es: {}".format(promedio))
+        
+        lista_ordenada = ordenar_nombres(lista_jugadores)
+
+        for elemento in lista_ordenada:
+            
+            print("-{0} |promedio.pp :{1}".format(elemento["nombre"],elemento["estadisticas"]["promedio_puntos_por_partido"]))
+
 #6
 def buscar_miembre_del_salon_de_la_fama(lista_jugadores:list):
 
@@ -410,14 +439,6 @@ def buscar_miembre_del_salon_de_la_fama(lista_jugadores:list):
         else:
 
             print("el jugador no petence al salon de la fama")
-
-
-lista_nba = leer_archivo_json(r"C:\Users\pablo\OneDrive\Escritorio\python - ejercicios\laboratorio 1 parcial\dt.json")
-
-
-buscar_miembre_del_salon_de_la_fama(lista_nba)
-
-
 
 
 
