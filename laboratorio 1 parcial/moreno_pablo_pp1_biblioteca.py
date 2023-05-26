@@ -334,13 +334,27 @@ def validar_nombre_ingresado(lista_jugadores:list,nombre:str) -> int :
     
 def buscar_y_mostrar_logros(lista_jugadores:list) -> None:
 
-    mostrar_nombre_y_o_inidece(lista_jugadores)
+    """
+    pide por consola que ingrese el nobre
+    del jugador, el cual quiera ver sus
+    logros
+
+    lista_jugadores: es la lista de donde
+    se van a sacar los valores de jugador 
+    que se ingrese
+
+    retorno:
+    no tiene
+    """
+
+
+    mostrar_nombre_y_o_inidece(lista_jugadores)# muestra los nombres de los jugadores para su ingreso
 
     nombre = input("ingrse el nombre del jugador el cual quiera ver sus logros: ")
 
-    indec = validar_nombre_ingresado(lista_jugadores,nombre)
+    indec = validar_nombre_ingresado(lista_jugadores,nombre) #valida si lo que se ingrese se parece a algun nombre de la lista
 
-    if indec > -1 :# si no encotro la simitud no entra
+    if indec > -1 :# si no encuetra la similitud no entra
         
         print("logroes de {}:".format(lista_jugadores[indec]["nombre"]))
 
@@ -356,9 +370,26 @@ def buscar_y_mostrar_logros(lista_jugadores:list) -> None:
 
 def calcular_promedio_de_lista(lista_jugadores:list,dato:str) -> float:
 
+    """
+    calcula el promedio de cualquier dato
+    ,que se le pease por paramtro, de la 
+    lista
+
+    lista_jugadores: es la lista de donde 
+    se van a sacar los valores a buscar
+
+    dato: es el valor que se va a buscar 
+    dentro de la lista
+
+    retorno:
+    devolvera el calculo del 
+    promedio de dato que se le paso 
+    """
+
+
     prmedio = 0
 
-    if len(lista_jugadores) > 0:
+    if len(lista_jugadores) > 0: #valida que la lista no este vacia
 
         suma = 0
 
@@ -376,6 +407,14 @@ def calcular_promedio_de_lista(lista_jugadores:list,dato:str) -> float:
     return prmedio
 
 def ordenar_nombres(lista_jugadores:list) -> list:
+
+    """
+    ordena una lista por los
+    nombres, en orden alfabetico
+
+    lista_jugadores: es la lista
+    que se va a ordenar 
+    """
 
     copia_lista = lista_jugadores[:]
 
@@ -401,6 +440,21 @@ def ordenar_nombres(lista_jugadores:list) -> list:
 
 def mostrar_promedio_del_equipo(lista_jugadores:list) -> None:
 
+    """
+    calcula el promedio de 
+    puntos por partido de 
+    todos los jugadores
+    para luego mostrar cada
+    uno de los putos por partido
+    de todos los jugadoes
+
+    lista_jugadores: es la lista 
+    de donde se van a obtener los datos 
+    para calcular el promedio y para
+    mostrar los nombres de los jugadores
+    """
+
+
     if len(lista_jugadores) > 0:
 
         promedio = calcular_promedio_de_lista(lista_jugadores,"promedio_puntos_por_partido")
@@ -414,7 +468,20 @@ def mostrar_promedio_del_equipo(lista_jugadores:list) -> None:
             print("-{0} |promedio.pp :{1}".format(elemento["nombre"],elemento["estadisticas"]["promedio_puntos_por_partido"]))
 
 #6
-def buscar_miembre_del_salon_de_la_fama(lista_jugadores:list):
+def buscar_miembre_del_salon_de_la_fama(lista_jugadores:list) -> None:
+
+    """ 
+    pide el ingres del nombre de 
+    un jugador para luego buscar
+    si pertence al salon de la fama
+    del baloncesto
+
+    lista_jugadores: es la lista de donde
+    se van a buscar los jugadores
+    
+    retorno:
+    no tiene
+    """
 
     pertencia = False
 
@@ -440,16 +507,48 @@ def buscar_miembre_del_salon_de_la_fama(lista_jugadores:list):
 
             print("el jugador no petence al salon de la fama")
 
+#7-8-9
+def buscar_y_mostrar_la_mayor_dato_de_los_jugadores(lista_jugadores:list,dato_buscar:str) -> None:
+    
+    """
+    busca y muestra cual es el
+    mayor valor estadistico que 
+    se puede encontrar en la lista
+    
+    lista_jugadores: es de donde se 
+    van a optener los datos para la 
+    busqueda
+
+    dato_buscar: es el valor estadistico
+    que se va a buscar dentro de la lista
+
+    retorno:
+    no tiene
+    """
 
 
+    jugador_encontrado = {}
 
+    if len(lista_jugadores) > 0:
 
+        flag_primera_vez = True
 
+        for indec in range(len(lista_jugadores)):
 
+            if flag_primera_vez:
 
+                jugador_encontrado = lista_jugadores[indec]
 
+                flag_primera_vez = False
 
+            else:
 
+                if lista_jugadores[indec]["estadisticas"][dato_buscar] > jugador_encontrado["estadisticas"][dato_buscar]:
+
+                        jugador_encontrado = lista_jugadores[indec]
+
+        dato_buscar = dato_buscar.replace("_"," ") # modificacion para una lectura mas visible
+        print("jugador con mas {0} es: {1}".format(dato_buscar,jugador_encontrado["nombre"]))
 
 
 
