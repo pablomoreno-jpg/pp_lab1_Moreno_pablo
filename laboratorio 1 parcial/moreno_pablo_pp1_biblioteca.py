@@ -201,7 +201,7 @@ def mostrar_nombre_y_o_inidece(lista_jugadores:list,mostrar_inidce = False) -> N
 
             print("-{}".format(diccionario["nombre"]))
 
-def mostrar_un_jugador_por_indice(lista_jugadores:list) -> dict:
+def mostrar_un_jugador_por_indice(lista_jugadores:list) -> dict: 
 
     """
     muestra, por consola, los nombres (junto
@@ -409,19 +409,22 @@ def calcular_promedio_de_lista(lista_jugadores:list,dato:str) -> float:
 
     return prmedio
 
-def ordenar_nombres(lista_jugadores:list) -> list:
+def ordenar_lista(lista_jugadores:list,nombre_posicion:str) -> list:
 
     """
     ordena una lista por los
     nombres, en orden alfabetico
+    o si se desea, por otro dato.
+    pero por un dato estadistico
 
-    lista_jugadores: es la lista
-    que se va a ordenar 
+    
     """
 
     copia_lista = lista_jugadores[:]
 
-    if len(copia_lista) > 0:
+    if re.match(r'^nombre$|^posicion$',nombre_posicion):
+    
+        #expresion para que solo acepte los datos nombre y posicion
 
         ordenamiento = True
 
@@ -431,13 +434,16 @@ def ordenar_nombres(lista_jugadores:list) -> list:
 
             for indec in range(len(copia_lista) -1):
 
-                if copia_lista[indec]["nombre"] > copia_lista[indec+1]["nombre"]:
+                if copia_lista[indec][nombre_posicion] > copia_lista[indec+1][nombre_posicion]:
                     
                     ordenamiento = True
 
                     copia_lista[indec],copia_lista[indec+1] = copia_lista[indec+1],copia_lista[indec]
 
-             
+    else:
+
+        print("error, no se pude ordenar por este dato")
+
 
     return copia_lista
 
@@ -450,11 +456,15 @@ def mostrar_promedio_del_equipo(lista_jugadores:list) -> None:
     para luego mostrar cada
     uno de los putos por partido
     de todos los jugadoes
+    (ordenado por nombre)
 
     lista_jugadores: es la lista 
     de donde se van a obtener los datos 
     para calcular el promedio y para
     mostrar los nombres de los jugadores
+
+    retorno:
+    no tiene
     """
 
 
@@ -464,7 +474,7 @@ def mostrar_promedio_del_equipo(lista_jugadores:list) -> None:
         
         print("el promedio de puntos por partido (promedio pp) de todo el equipo es: {}".format(promedio))
         
-        lista_ordenada = ordenar_nombres(lista_jugadores)
+        lista_ordenada = ordenar_lista(lista_jugadores,"nombre")
 
         for elemento in lista_ordenada:
             
@@ -510,7 +520,7 @@ def buscar_miembre_del_salon_de_la_fama(lista_jugadores:list) -> None:
 
             print("el jugador no petence al salon de la fama")
 
-#7-8-9-13-14
+#7-8-9-13-14-19
 def buscar_y_mostrar_la_mayor_dato_de_los_jugadores(lista_jugadores:list,dato_buscar:str) -> None:
     
     """
@@ -553,7 +563,7 @@ def buscar_y_mostrar_la_mayor_dato_de_los_jugadores(lista_jugadores:list,dato_bu
         print("jugador con mas {0} es: {1}".format(dato_buscar,jugador_encontrado["nombre"]))
 
 
-#10-11-12-15
+#10-11-12-15-18
 def mostrar_datos_estaditico_de_un_jugador(jugador:dict,dato:str) -> None:
 
     """
@@ -683,16 +693,74 @@ def calcular_promedio_y_excluir_al_mas_bajo(lista_jugadores:list) -> None:
 
                 mostrar_datos_estaditico_de_un_jugador(lista_jugadores,"promedio_puntos_por_partido")
 
+#17
+def buscar_jugador_con_mas_logros(lista_jugadores:list) -> None:
     
+    """
+    busca y muestra cual es el jugador
+    que tiene la mayor cantidad de 
+    logros 
 
+    lista_jugadores: es la lista
+    de donde se obtienen los datos
+    para calcular los logros
 
+    retorno:
+    no tiene
+    """
 
+    if len(lista_jugadores) > 0:
 
+        cantidad_logros = 0 #valor inicial para la busqueda de maximo
 
+        for jugador in lista_jugadores:
 
+            if len(jugador["logros"]) > cantidad_logros:
 
+                    cantidad_logros = len(jugador["logros"])#la mayor cantidad de logros lo mido con un len
 
+                    jugadore_con_mas_logros = jugador 
 
+        print("el jugador con mas logros es: {}",jugadore_con_mas_logros["nombre"])
+
+#20
+def jugadores_con_mayor_porcentaje_de_tiro(lista_jugadores:list) -> None:
+
+    if len(lista_jugadores) > 0:
+
+        lista_auxiliar = [] 
+
+        flag_encuentro = False #variable que cambia si encuentra, al menos, un valor mayor al numero ingresado
+
+        porcentaje_ingresado = input("ingrese un numero: ")
+
+        if validar_numero_ingresado(porcentaje_ingresado):
+
+            porcenaje = float(porcentaje_ingresado)
+            
+            for jugador in lista_jugadores:
+
+                if jugador["estadisticas"]["porcentaje_tiros_de_campo"] > porcenaje:
+
+                    flag_encuentro = True
+
+                    lista_auxiliar.append(jugador)  
+
+            if flag_encuentro:
+
+                lista_ordenada = ordenar_lista(lista_auxiliar,"posicion")
+                
+                for jugador in lista_ordenada:
+
+                    mostrar_datos_estaditico_de_un_jugador(jugador,"porcentaje_tiros_de_campo")
+
+            else:
+
+                print("no se encontro un jugador que supere el numero ingresado")
+
+        else:
+
+            print("error, el dato no es un numero valido")
 
 
 
