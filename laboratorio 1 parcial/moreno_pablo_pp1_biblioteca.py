@@ -7,22 +7,22 @@ def validar_numero_ingresado(numero:str) -> bool:
     """
     lee el numero que se le pasa por 
     parametros y verifica si es 
-    numero entero
+    numero entero o un numero floatante
 
     retorno:
-    en caso de que sea un numero
+    en caso de que sea un numero )(entero o flotante)
     (negativo o positivo) devuelve true,
     en caso de no ser un numero devuelve
     False 
     """
 
-    invalido = False
+    validad = False
 
-    if re.match(r'^\-?\d+$',numero): #expresion regular para validar tanto numero positivos como negativos
+    if re.match(r'^\-?\d+$|^\-?\d+\.\d+$',numero): #valida si es un numero entro o flotante (negativo o postivo)
 
-        invalido = True
+        validad = True
 
-    return invalido
+    return validad
 
 def ingresar_opciones(lista_opciones:list) -> int: 
 
@@ -117,22 +117,25 @@ def guardar_csv(nombre_guardado:str,contenido:str) -> bool:
     return exito
 
 #1
-def mostrar_nombre_y_posicion_dream_team(lista_jugadores:list) -> None:
+def mostrar_nombre_y_posicion_dream_team(lista_jugadores:list,dato:str) -> None:
 
     """
-    imprime los datos nombre, y posiciion 
-    en la lista que se pasa por parametro
+    imprime los datos nombre, y el
+    dato que se quiera ver junto
 
     lista_jugadore: es la lista de diccionarios
     que se va a mostrar
+
+    dato: es el dato cuyo valor se va a mostrar
+    junto al nombre
 
     retorno:
     no tiene
     """
 
     for jugador in lista_jugadores:
-    
-            print("{0} - {1}".format(jugador["nombre"],jugador["posicion"]))
+        
+        print("{0} - {1}: {2}".format(jugador["nombre"],dato,jugador[dato]))
 
 #2
 def imprimir_dicionario(diccionario:dict) -> None:
@@ -507,7 +510,7 @@ def buscar_miembre_del_salon_de_la_fama(lista_jugadores:list) -> None:
 
             print("el jugador no petence al salon de la fama")
 
-#7-8-9
+#7-8-9-13-14
 def buscar_y_mostrar_la_mayor_dato_de_los_jugadores(lista_jugadores:list,dato_buscar:str) -> None:
     
     """
@@ -525,7 +528,6 @@ def buscar_y_mostrar_la_mayor_dato_de_los_jugadores(lista_jugadores:list,dato_bu
     retorno:
     no tiene
     """
-
 
     jugador_encontrado = {}
 
@@ -551,10 +553,137 @@ def buscar_y_mostrar_la_mayor_dato_de_los_jugadores(lista_jugadores:list,dato_bu
         print("jugador con mas {0} es: {1}".format(dato_buscar,jugador_encontrado["nombre"]))
 
 
+#10-11-12-15
+def mostrar_datos_estaditico_de_un_jugador(jugador:dict,dato:str) -> None:
+
+    """
+    mustra el nombre y el dato que 
+    se desee (que este en dentro de
+    las estaditicas) del jugador
+
+    jugador: es el diccioanrion donde
+    se van a buscar los datos de un jugador
+
+    dato: es el dato que se va a buscar
+    dentro del diccionario 'estadisticas'
+    que tiene el jugador
+
+    retorno:
+    no tiene 
+    """
+    if len(jugador) > 0: #valida que no se le pase un diccionario vacio
+
+        dato_impreso = dato.replace("_"," ") #para que la impresion por consola sea mas limpia
+
+        print("{} - {}: {}".format(jugador["nombre"],dato_impreso,jugador["estadisticas"][dato]))
+
+def jugadore_con_mayor_promedio(lista_jugadores:list,dato_comparar:str) -> None:
+
+    """
+    pide el ingrese de un numero y busca
+    los jugadores que tenga el dato
+    que supere ese numero
+
+    lista_jugadores: es la lista de
+    donde se van a obtener el dato
 
 
+    dato_comparar: es el dato que se
+    va a buscar y comparar con el
+    numero ingresado
+
+    retorno:
+    no tiene
+    """
+
+    ingreso = input("ingrese un valor: ")
+
+    encontrado = False 
+    #bool que valida si se muestra un mensaje en caso de que no se ecuentre un jugador que supere
+    #el valor ingresado.
+
+    if validar_numero_ingresado(ingreso):
+
+        busqueda = float(ingreso) 
+
+        for jugador in lista_jugadores:
+
+            if jugador["estadisticas"][dato_comparar] > busqueda:
+
+                encontrado = True #si se encuentra, el mensaje no se mostrara.
+
+                mostrar_datos_estaditico_de_un_jugador(jugador,dato_comparar)
 
 
+        if not encontrado: #en no se encuentre valor que supere lo ingresado muenstra el mensaje.
+
+            print("lo siento, no se encontro jugador que supere ese numero")
+            
+
+    else:
+
+        print("error, lo que se ingreso no es un numero valido")
+
+#16
+def buscar_minimo(lista_jugadores:list,dato:str,promedio_a_comparar:float) -> int:
+
+    """
+    busca de entre toda la lista,
+    cual es el menor valor del 
+    dato a buscar
+
+    lista_jugadores: es la lista
+    en donde se va a buscar y
+    compara los valores
+
+    dato: es el dato que se va 
+    a buscar en la lista
+
+    promedio_a_comparar: es un 
+    valor por el cual se va a
+    comparar para hayar el
+    menor valor en la lista  
+
+    retono:
+    retorno el indice en donde
+    se encontro el menor 
+    valor del dato
+    """
+
+    flag_primera_vez = True #se cambia cuando es la primer iteracion
+
+    for indec in range(len(lista_jugadores)):
+    
+        if flag_primera_vez:
+
+            flag_primera_vez = False
+
+            indec_minimo = indec
+
+        else:
+
+            if lista_jugadores [indec]["estadisticas"][dato] < promedio_a_comparar:
+
+                indec_minimo = indec
+        
+
+    return indec_minimo
+
+def calcular_promedio_y_excluir_al_mas_bajo(lista_jugadores:list) -> None:
+
+    if len(lista_jugadores) > 0:
+        
+        promedio_puntos_partido =  calcular_promedio_de_lista(lista_jugadores,"promedio_puntos_por_partido")
+
+        posicion_minima = buscar_minimo(lista_jugadores,"promedio_puntos_por_partido",promedio_puntos_partido)
+
+        for indec in range(len(lista_jugadores)):
+
+            if indec != posicion_minima:
+
+                mostrar_datos_estaditico_de_un_jugador(lista_jugadores,"promedio_puntos_por_partido")
+
+    
 
 
 
