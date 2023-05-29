@@ -491,7 +491,6 @@ def mostrar_promedio_del_equipo(lista_jugadores:list) -> None:
             
             print("-{0} |promedio.pp :{1}".format(elemento["nombre"],elemento["estadisticas"]["promedio_puntos_por_partido"]))
     
-
 #6
 def buscar_miembro_del_salon_de_la_fama(lista_jugadores:list) -> None:
 
@@ -538,7 +537,6 @@ def buscar_miembro_del_salon_de_la_fama(lista_jugadores:list) -> None:
 
         print("no se encontro el jugador que esta buscando")
 
-    print
 #7-8-9-13-14-19
 def buscar_el_mayor_dato_de_la_lista(lista_jugadores:list,dato_buscar:str) -> None:
     
