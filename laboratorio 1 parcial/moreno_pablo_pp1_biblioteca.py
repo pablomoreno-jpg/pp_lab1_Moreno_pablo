@@ -786,7 +786,374 @@ def jugadores_con_mayor_porcentaje_de_tiro(lista_jugadores:list) -> None:
 
             print("error, el dato no es un numero valido")
 
+#23
+def ordenar_lista_por_dato(lista_ordenar:list,dato:str) -> list:
 
+    """
+    ordenar de mayor a menor 
+    a partir del valor (de la biblioteca
+    estadistica)de un dato
+
+    lista_ordenar: es la lista 
+    que se va a ordenar
+
+    dato: es el dato que se va
+    a usar como comparacion principal
+    para ordenar la lista
+
+    retorno:
+    devuelve la lisa ordena desde
+    el mayor valor de un dato 
+    """
+
+    ordenar = True
+
+    lista_ordenada = lista_ordenar[:]
+
+    while ordenar:
+
+        ordenar = False
+
+        flag_primera_vez = True
+
+        for indec in range(len(lista_ordenada)-1):
+
+            if lista_ordenada[indec]["estadisticas"][dato] < lista_ordenada[indec+1]["estadisticas"][dato]:
+                
+                ordenar = True
+
+                lista_ordenada[indec], lista_ordenada[indec+1] = lista_ordenada[indec+1],lista_ordenada[indec]
+
+
+    return lista_ordenada
+
+def rankear_listas(lista_rankear:list,dato:str) -> list[dict]:
+
+    """
+    ordena la lista y le da una
+    posicion numerica (1 para el
+    mayor, 12 para el menor) de 
+    dependiendo de que tal 
+    alto este en la lista
+
+    lista_rankear: es la 
+    lista que se va a ordenar
+    para luego generar una posicion
+
+    dato: es el dato que se va
+    a usar como filtro
+    para ordenar yu rankear 
+    la lista
+
+    retono:
+    devolvera una lista de 
+    diccionarios, que contentra
+    el nombre del jugador y 
+    la posicion en la que se encuentra
+    en dicho dato
+    """
+
+
+    lista_diccionarios = []
+
+    lista_ordenada = ordenar_lista_por_dato(lista_rankear,dato)
+
+    contador = 0
+
+    for elemento in lista_ordenada:
+
+        contador += 1
+
+        jugador = {}
+
+        jugador["nombre"] = elemento["nombre"]
+
+        jugador[dato] = contador
+
+        lista_diccionarios.append(jugador)
+
+    return lista_diccionarios
+
+def juntar_listas_por_nombres(lista_1:list[dict],lista_2:list[dict],calve_unica_1:str,clave_unica_2:str) -> list:
+
+    """
+    junta dos listas de diccionarios,
+    cuyos elementos en comun 
+    es que cada diccioanrio de cada
+    lista, tiene el mismo nombre
+
+    lista_1: es la primera lista
+    que se va a iterar para la busqueda de un
+    nombre en comun
+
+    calve_unica_1: es la clave de la primera
+    lista que la diferencia de la segunda
+
+    lista_2: es la segunda lista en donde
+    se va a buscar el nombre en comun
+
+    clave_unica_2: es la clave de la segunda
+    lista que la diferencia de la primera
+
+    retorno:
+    devolvera una lista de diccioanrios
+    que tendra el nombre de un jugador
+    y los valores de las claves unicas
+    que se le paso por parametros
+    """
+
+    lista_3 = []
+
+    for elemento_1 in lista_1:
+
+        nombre = elemento_1["nombre"] #guarda el nombre para la busqueda
+
+        for elemento_2 in lista_2:
+            
+            if elemento_2["nombre"] == nombre:
+
+                nuevo_diccionario = {} #por cada iteracion, el diccioanrio se reescribe
+                nuevo_diccionario["nombre"] = nombre
+                nuevo_diccionario[calve_unica_1] = elemento_1[calve_unica_1]
+                nuevo_diccionario[clave_unica_2] = elemento_2[clave_unica_2]
+
+                lista_3.append(nuevo_diccionario) #el diccioanrio generado, se guarda en la lista
+
+
+
+    return lista_3
+
+def crear_nuevo_diccioanrio(diccioanrio_1:dict,claves_1:list,diccioanrio_2:dict,claves_2:list,nombre:str) -> dict:
+
+    """
+    crea un nuevo diccioarnio
+    a patir de 2 diccioanrio
+    que comparten nombre
+
+    diccioanrio_1: es un diccioanrio
+    al cual se le van a tomar sus 
+    valores, excetuando nombre
+    
+    claves_1: es una lista 
+    de claves para acceder
+    a los valores del diccionario_1
+
+    diccioanrio_2: es un diccioanrio
+    al cual se le van a tomar sus 
+    valores, excetuando nombre
+
+    claves_2:es una lista 
+    de claves para acceder
+    a los valores del diccionario_2
+
+    nombre: es el nombre que va al
+    principio de ambas listas
+
+    retorno:
+    devolvera un diccionario que tiene
+    un nombre, y todos los valores de los
+    diccioanrios que se le pasaron como para
+    metros
+    """
+
+
+    diccioanrio_nuevo = {}
+
+    diccioanrio_nuevo["nombre"] = nombre
+
+    for key_1 in claves_1:
+
+        diccioanrio_nuevo[key_1] = diccioanrio_1[key_1]
+
+    for key_2 in claves_2:
+
+        diccioanrio_nuevo[key_2] = diccioanrio_2[key_2]
+
+    return diccioanrio_nuevo
+
+def juntar_todos_los_rankings(rankin_1:list[dict],clave_1:str,rankin_2:list[dict],clave_2:str,rankin_3:list[dict],clave_3:str,rankin_4:list[dict],clave_4:str) -> list:
+
+    """
+    junta 4 listas de diccionarois
+    que tiene como caracteristcas 
+    que tienen nombres iguales en cada
+    lista, y un dato unico
+
+    rankin_1, rankin_2, rankin_3, rankin_4: 
+    son listas de diccioanrios que solo comparten
+    nombres.
+
+    clave_1: es la clave unica de la lista
+    rankin_1
+
+    clave_2: es la clave unica de la lista
+    rankin_2
+
+    clave_3: es la clave unica de la lista
+    rankin_3
+
+    clave_4: es la clave unica de la lista
+    rankin_4
+
+    retorno:
+    devuelve una lista de diccioanrios
+    que en cada diccioarnio, tiene 
+    un nombre y todos los valores de elemento
+    de las listas pasadas
+    
+    """
+
+
+    lista_junatada_1 = juntar_listas_por_nombres(rankin_1,rankin_2,clave_1,clave_2) #se crea la primera parte del ranking
+
+    claves_ranking_1 = []
+    claves_ranking_1.append(clave_1)
+    claves_ranking_1.append(clave_2) #se crea una lista que contiene las claves de la primera lista de rankig creada
+
+    lista_junatada_2 = juntar_listas_por_nombres(rankin_3,rankin_4,clave_3,clave_4) #se crea la segunda parte del ranking
+
+    claves_ranking_2 = []
+    claves_ranking_2.append(clave_3)
+    claves_ranking_2.append(clave_4) #se crea una lista que contiene las claves de la segunda lista de rankig creada
+
+    lista_completa = []
+
+    for elemento_1 in lista_junatada_1:
+
+        nombre = elemento_1["nombre"]
+
+        for elemento_2 in lista_junatada_2:
+
+            if elemento_2["nombre"] == nombre:
+
+                diccioanario = {}
+
+                diccioanario = crear_nuevo_diccioanrio(elemento_1,claves_ranking_1,elemento_2,claves_ranking_2,nombre)
+
+                lista_completa.append(diccioanario)
+
+    return lista_completa
+
+def crear_posicines_de_jugadores(lista_jugadores:list) -> list[dict]:
+
+    """
+    crea una lista de posiciones
+    en las que se encuentran 
+    cada uno de los jugadores
+    con las siguentes estadisticas tomas:
+    Puntos, Rebotes, Asistencias y robos
+
+    lista_jugadores:
+    es la lista de donde se van a 
+    sacar los datos para crear el ranking
+
+    retorno:
+    devolvera una lista con los nombres 
+    del jugadores, y sus respectivas posiciones
+    en cada una de las estadisticas mencionadas
+    """
+
+    copia_lista = lista_jugadores[:]
+
+    ranking_puntos = rankear_listas(copia_lista,"puntos_totales")
+
+    ranking_rebotes = rankear_listas(copia_lista,"rebotes_totales")
+
+    ranking_asistencias = rankear_listas(copia_lista,"asistencias_totales")
+
+    ranking_robos = rankear_listas(copia_lista,"robos_totales")
+
+    lista_rankeada = juntar_todos_los_rankings(ranking_puntos,"puntos_totales",ranking_rebotes,"rebotes_totales",ranking_asistencias,"asistencias_totales",ranking_robos,"robos_totales")
+
+    return lista_rankeada
+
+def capitalizar_palabras(palabra_texto:str) -> str:
+
+    """
+    capitaliza la palabra, o texto, que se le pase por 
+    paramatro.
+
+    palabra_texto: sting que se va a capilizar
+
+    retorno:
+    devuelve la palabra que se va a capitalizar
+
+    """
+
+    palabra_texto = palabra_texto.strip()
+
+    if re.match(r'\b\w*,\w*\b',palabra_texto):
+
+        lista_palabra = palabra_texto.split(",")
+
+        palabras_capitalizadas = []
+
+        for palabra in lista_palabra:
+
+            palabras_capitalizadas.append(palabra.capitalize())
+
+        nueva_palabra = ",".join(palabras_capitalizadas)
+
+    else:
+
+        nueva_palabra = palabra_texto.capitalize()
+
+    return nueva_palabra
+
+def guardar_posiciones(lista_posiciones:list[dict]) -> None:
+
+    """
+    guarda una lista 
+    con todos los ranking de los
+    jugadores en formato .csv
+
+    lista_posiciones: es la
+    lista que contiene los
+    nombres y los rankings
+    de todos los jugadores
+
+    retorno:
+    no tiene
+    """
+
+
+    contenido = ""
+
+    claves = list(lista_posiciones[0].keys())
+
+    cabezara = ",".join(claves)
+    cabezara = cabezara.replace("nombre","Jugador")
+    cabezara = cabezara.replace("_totales","")
+    cabezara = capitalizar_palabras(cabezara)
+
+    for elemento in lista_posiciones:
+        
+        contador = 0
+
+        for key in claves:
+
+            contador +=1
+
+            if contador < len(claves):
+
+                contenido += "{},".format(elemento[key])
+
+            else:
+
+                contenido += "{}\n".format(elemento[key])
+
+        guardar = "{0}\n{1}".format(cabezara,contenido)
+
+        if guardar_csv(r'laboratorio 1 parcial\ranking_dt.csv',guardar):
+
+            print("el archivo, se guardo de forma exitosa")
+
+        else:
+
+            print("no se pudo guardar")
+
+
+#menu
 def imprimir_opcines() -> None:
 
     """
@@ -818,9 +1185,10 @@ def imprimir_opcines() -> None:
           "18) Ingresar un valor y mostrar los jugadores que tengan un porcentaje de tiros triples mayor.\n"
           "19) Calcular y mostrar el jugador con la mayor cantidad de temporadas jugadas.\n"
           "20) Ingresar un valor y mostrar los jugadores , ordenados por posición en la cancha, que hayan tenido un porcentaje de tiros de campo superior a ese valor.\n"
-          "21) salir.\n",end= "\n")
+          "21) Generar un archivo .csv con los rankings de los jugadores en puntos,rebotes,asistencias,y robos.\n"
+          "22) salir.\n",end= "\n")
 
-def dream_team_app():
+def dream_team_app() -> None:
 
     """
     ejecuta un menu de opcines
@@ -836,7 +1204,7 @@ def dream_team_app():
 
     lista_nba = leer_archivo_json(ruta_lectura)
 
-    numero_opcines = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]
+    numero_opcines = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]
 
     while True:
 
@@ -916,59 +1284,10 @@ def dream_team_app():
                 jugadores_con_mayor_porcentaje_de_tiro(lista_nba)
 
             case 21:
-                print("cerrarndo aplicacion....")
+                lista_posiciones = crear_posicines_de_jugadores(lista_nba)
+
+                guardar_posiciones(lista_posiciones)
+            case 22:
+                print("cerrando aplicacion....")
                 break
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
