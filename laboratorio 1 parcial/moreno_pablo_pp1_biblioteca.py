@@ -7,24 +7,49 @@ def validar_numero_ingresado(numero:str) -> bool:
     """
     lee el numero que se le pasa por 
     parametros y verifica si es 
-    numero entero o un numero floatante
+    numero entero 
 
     numero: es el texto que se va a
-    validar si es un numero
+    validar si es un entero
 
     retorno:
-    en caso de que sea un numero (entero o flotante 
-    ya sea, negativo o positivo) devuelve true,
+    en caso de que sea un entero devuelve true,
     en caso contrario False 
     """
 
     validad = False
 
-    if re.match(r'^\-?\d+$|^\-?\d+\.\d+$',numero): #valida si es un numero entro o flotante (negativo o postivo)
+    if re.match(r'^\-?\d+$',numero):
+         #valida si es un numero entro  (negativo o postivo)
 
         validad = True
 
     return validad
+
+def validar_flotante_ingresado(numero:str) -> bool:
+
+    """
+    lee el numero que se le pasa por 
+    parametros y verifica si es 
+    un numero floatante aceptable
+
+    numero: es el texto que se va a
+    validar si es un flotante
+
+    retorno:
+    en caso de que sea un flotante devuelve true,
+    en caso contrario False 
+    """
+
+    validad = False
+
+    if re.match(r'^\-?\d+$|^\-?\d+\.\d+$',numero):
+    #valida si es un numero flotante aceptable(negativo o postivo)
+
+        validad = True
+
+    return validad
+   
 
 def ingresar_opciones(lista_opciones:list) -> int: 
 
@@ -48,13 +73,16 @@ def ingresar_opciones(lista_opciones:list) -> int:
 
         opcion = input("ingrese una opcion: ")
 
-        if validar_numero_ingresado(opcion): #si la funcion devuelve entra en la validacion
+        if validar_numero_ingresado(opcion):
+             #si la funcion devuelve entra en la validacion
             
             opcion_int = int(opcion)
 
-            if opcion_int in lista_opciones: #si el numero se encuentra dentro de lista, hace el return
+            if opcion_int in lista_opciones: 
+                #si el numero se encuentra dentro de lista, hace el return
 
-                return opcion_int #cuando entra a esta linea, el while deja de iterar
+                return opcion_int 
+                #cuando entra a esta linea, el while deja de iterar
             
             else:
 
@@ -82,11 +110,13 @@ def leer_archivo_json(nombre_archivo:str) -> list:
 
     lista_leida = []
     
-    with open(nombre_archivo,"r") as archivo: #modo de lectura
+    with open(nombre_archivo,"r") as archivo: 
+        #modo de lectura
 
         diccionario = json.load(archivo)
 
-        lista_leida = diccionario["jugadores"] # carga al varible solo con el diccionario 'jugadores'
+        lista_leida = diccionario["jugadores"] 
+        # carga al varible solo con el diccionario 'jugadores'
 
     return lista_leida
 
@@ -139,7 +169,6 @@ def mostrar_nombre_y_posicion_dream_team(lista_jugadores:list,dato:str) -> None:
         
         print("{0} - {1}: {2}".format(jugador["nombre"],dato,jugador[dato]))
 
-
 #2
 def imprimir_dicionario(diccionario:dict) -> None:
 
@@ -158,12 +187,14 @@ def imprimir_dicionario(diccionario:dict) -> None:
 
     for key in diccionario: 
 
-        if type(diccionario[key]) == dict: #en caso de que el valor de la key sea diccionario
+        if type(diccionario[key]) == dict: 
+            #en caso de que el valor de la key sea diccionario
             
             print("-{}:".format(key),end="\n")
             imprimir_dicionario(diccionario[key]) 
 
-        elif type(diccionario[key]) == list: #en caso de que el valor de la key sea una lista
+        elif type(diccionario[key]) == list: 
+            #en caso de que el valor de la key sea una lista
             
             print("-{}:".format(key))
             for elemento in diccionario[key]:
@@ -194,7 +225,8 @@ def mostrar_nombre_y_o_inidece(lista_valores:list,mostrar_inidce = False) -> Non
 
     cantidad_jugadores = len(lista_valores)
 
-    if mostrar_inidce: #caso True, muestra el indice en el que el valor esta parado junto al nombre
+    if mostrar_inidce: 
+        #caso True, muestra el indice en el que el valor esta parado junto al nombre
 
         for indice in range(cantidad_jugadores):
 
@@ -202,7 +234,8 @@ def mostrar_nombre_y_o_inidece(lista_valores:list,mostrar_inidce = False) -> Non
 
     else:
 
-        for diccionario in lista_valores: #caso False, solo muestra los nombres
+        for diccionario in lista_valores: 
+            #caso False, solo muestra los nombres
 
             print("-{}".format(diccionario["nombre"]))
 
@@ -233,7 +266,8 @@ def buscar_jugador_por_indice(lista_buscar_jugador:list) -> dict:
 
     print("indice - nombre:")
 
-    mostrar_nombre_y_o_inidece(lista_buscar_jugador,mostrar_inidce=True) #mustra nombres junto a sus indices
+    mostrar_nombre_y_o_inidece(lista_buscar_jugador,mostrar_inidce=True) 
+    #mustra nombres junto a sus indices
 
     indice = input("ingrese el indice del jugador cuyas estadisticas quiera ver: ")
 
@@ -241,7 +275,8 @@ def buscar_jugador_por_indice(lista_buscar_jugador:list) -> dict:
 
         indice = int(indice)
 
-        if indice < indices_de_jugadores and indice > -1: #validacion para que no se ingrese 12 o mas, o menos de 0
+        if indice < indices_de_jugadores and indice > -1: 
+            #validacion para que no se ingrese 12 o mas, o menos de 0
 
             nombre_y_estaditicas["nombre"] = lista_buscar_jugador[indice]["nombre"]
             nombre_y_estaditicas["posicion"] = lista_buscar_jugador[indice]["posicion"]
@@ -296,7 +331,8 @@ def guardar_un_jugador(diccionario_jugador:dict,nombre_guardado:str) -> bool:
 
             guardar += "{}:{}\n".format(campo,diccionario_jugador["estadisticas"][campo])
 
-        if guardar_csv(nombre_guardado,guardar): #si la funcion devuelve verdadero significa que guardo bien
+        if guardar_csv(nombre_guardado,guardar): 
+            #si la funcion devuelve verdadero significa que guardo bien
 
             guardado_exitoso = True
 
@@ -338,7 +374,7 @@ def validar_nombre_ingresado(lista_jugadores:list,nombre:str) -> int :
 def buscar_y_mostrar_logros(lista_jugadores:list) -> None:
 
     """
-    pide por consola que ingrese el nobre
+    pide por consola que ingrese el nombre
     del jugador, el cual quiera ver sus
     logros
 
@@ -351,11 +387,13 @@ def buscar_y_mostrar_logros(lista_jugadores:list) -> None:
     """
 
 
-    mostrar_nombre_y_o_inidece(lista_jugadores)# muestra los nombres de los jugadores para su ingreso
+    mostrar_nombre_y_o_inidece(lista_jugadores)
+    # muestra los nombres de los jugadores para su ingreso
 
     nombre = input("ingrse el nombre del jugador el cual quiera ver sus logros: ")
 
-    indec = validar_nombre_ingresado(lista_jugadores,nombre) #valida si lo que se ingrese se parece a algun nombre de la lista
+    indec = validar_nombre_ingresado(lista_jugadores,nombre) 
+    #valida si lo que se ingrese se parece a algun nombre de la lista
 
     if indec > -1 :# si no encuetra la similitud no entra
         
@@ -371,7 +409,6 @@ def buscar_y_mostrar_logros(lista_jugadores:list) -> None:
 
 
 #5
-
 def calcular_promedio_de_lista(lista_jugadores:list,dato:str) -> float:
 
     """
@@ -489,7 +526,9 @@ def mostrar_promedio_del_equipo(lista_jugadores:list) -> None:
 
         for elemento in lista_ordenada:
             
-            print("-{0} |promedio.pp :{1}".format(elemento["nombre"],elemento["estadisticas"]["promedio_puntos_por_partido"]))
+            print("-{0} |promedio.pp :{1}".format(elemento["nombre"],
+                                                  elemento["estadisticas"]
+                                                  ["promedio_puntos_por_partido"]))
     
 #6
 def buscar_miembro_del_salon_de_la_fama(lista_jugadores:list) -> None:
@@ -579,7 +618,6 @@ def buscar_el_mayor_dato_de_la_lista(lista_jugadores:list,dato_buscar:str) -> No
         dato_buscar = dato_buscar.replace("_"," ") # modificacion para una lectura mas limpia
         print("el jugador con mas {0} es: {1}".format(dato_buscar,jugador_encontrado["nombre"]))
 
-
 #10-11-12-15-18
 def mostrar_datos_estaditico_de_un_jugador(jugador:dict,dato:str) -> None:
 
@@ -633,7 +671,7 @@ def jugador_con_mayor_promedio(lista_jugadores:list,dato_comparar:str) -> None:
     #bool que valida si se muestra un mensaje en caso de que no se ecuentre un jugador que supere
     #el valor ingresado.
 
-    if validar_numero_ingresado(ingreso):
+    if validar_flotante_ingresado(ingreso):
 
         busqueda = float(ingreso) 
 
@@ -774,7 +812,10 @@ def jugadores_con_mayor_porcentaje_de_tiro(lista_jugadores:list) -> None:
                 for jugador in lista_ordenada:
 
                     #mostrar_datos_estaditico_de_un_jugador(jugador,"porcentaje_tiros_de_campo")
-                    print("{0}| posicion: {1}|porcenjtae de tiros de campo: {2}".format(jugador["nombre"],jugador["posicion"],jugador["estadisticas"]["porcentaje_tiros_de_campo"]))
+                    print("{0}| posicion: {1}|porcenjtae de tiros de campo: {2}".format(jugador["nombre"],
+                                                                                        jugador["posicion"],
+                                                                                        jugador["estadisticas"]
+                                                                                                ["porcentaje_tiros_de_campo"]))
                     
             else:
 
@@ -872,7 +913,8 @@ def rankear_listas(lista_rankear:list,dato:str) -> list[dict]:
 
     return lista_diccionarios
 
-def juntar_listas_por_nombres(lista_1:list[dict],lista_2:list[dict],calve_unica_1:str,clave_unica_2:str) -> list:
+def juntar_listas_por_nombres(lista_1:list[dict],lista_2:list[dict],
+                              calve_unica_1:str,clave_unica_2:str) -> list:
 
     """
     junta dos listas de diccionarios,
@@ -921,7 +963,8 @@ def juntar_listas_por_nombres(lista_1:list[dict],lista_2:list[dict],calve_unica_
 
     return lista_3
 
-def crear_nuevo_diccioanrio(diccioanrio_1:dict,claves_1:list,diccioanrio_2:dict,claves_2:list,nombre:str) -> dict:
+def crear_nuevo_diccioanrio(diccioanrio_1:dict,claves_1:list,
+                            diccioanrio_2:dict,claves_2:list,nombre:str) -> dict:
 
     """
     crea un nuevo diccioarnio
@@ -969,7 +1012,9 @@ def crear_nuevo_diccioanrio(diccioanrio_1:dict,claves_1:list,diccioanrio_2:dict,
 
     return diccioanrio_nuevo
 
-def juntar_todos_los_rankings(rankin_1:list[dict],clave_1:str,rankin_2:list[dict],clave_2:str,rankin_3:list[dict],clave_3:str,rankin_4:list[dict],clave_4:str) -> list:
+def juntar_todos_los_rankings(rankin_1:list[dict],clave_1:str,rankin_2:list[dict],
+                              clave_2:str,rankin_3:list[dict],clave_3:str,rankin_4:list[dict],
+                              clave_4:str) -> list:
 
     """
     junta 4 listas de diccionarois
@@ -1002,17 +1047,21 @@ def juntar_todos_los_rankings(rankin_1:list[dict],clave_1:str,rankin_2:list[dict
     """
 
 
-    lista_junatada_1 = juntar_listas_por_nombres(rankin_1,rankin_2,clave_1,clave_2) #se crea la primera parte del ranking
+    lista_junatada_1 = juntar_listas_por_nombres(rankin_1,rankin_2,clave_1,clave_2) 
+    #se crea la primera parte del ranking
 
     claves_ranking_1 = []
     claves_ranking_1.append(clave_1)
-    claves_ranking_1.append(clave_2) #se crea una lista que contiene las claves de la primera lista de rankig creada
+    claves_ranking_1.append(clave_2)
+    #se crea una lista que contiene las claves de la primera lista de rankig creada
 
-    lista_junatada_2 = juntar_listas_por_nombres(rankin_3,rankin_4,clave_3,clave_4) #se crea la segunda parte del ranking
+    lista_junatada_2 = juntar_listas_por_nombres(rankin_3,rankin_4,clave_3,clave_4) 
+    #se crea la segunda parte del ranking
 
     claves_ranking_2 = []
     claves_ranking_2.append(clave_3)
-    claves_ranking_2.append(clave_4) #se crea una lista que contiene las claves de la segunda lista de rankig creada
+    claves_ranking_2.append(clave_4)
+     #se crea una lista que contiene las claves de la segunda lista de rankig creada
 
     lista_completa = []
 
@@ -1026,7 +1075,8 @@ def juntar_todos_los_rankings(rankin_1:list[dict],clave_1:str,rankin_2:list[dict
 
                 diccioanario = {}
 
-                diccioanario = crear_nuevo_diccioanrio(elemento_1,claves_ranking_1,elemento_2,claves_ranking_2,nombre)
+                diccioanario = crear_nuevo_diccioanrio(elemento_1,claves_ranking_1,
+                                                       elemento_2,claves_ranking_2,nombre)
 
                 lista_completa.append(diccioanario)
 
@@ -1061,7 +1111,9 @@ def crear_posicines_de_jugadores(lista_jugadores:list) -> list[dict]:
 
     ranking_robos = rankear_listas(copia_lista,"robos_totales")
 
-    lista_rankeada = juntar_todos_los_rankings(ranking_puntos,"puntos_totales",ranking_rebotes,"rebotes_totales",ranking_asistencias,"asistencias_totales",ranking_robos,"robos_totales")
+    lista_rankeada = juntar_todos_los_rankings(ranking_puntos,"puntos_totales",ranking_rebotes,
+                                               "rebotes_totales",ranking_asistencias,"asistencias_totales",
+                                               ranking_robos,"robos_totales")
 
     return lista_rankeada
 
@@ -1151,6 +1203,349 @@ def guardar_posiciones(lista_posiciones:list[dict]) -> None:
             print("no se pudo guardar")
 
 
+#extras:
+#1
+def buscar_cantidad_de_posiciones_de_jugadores(lista_jugadores:list) -> dict:
+
+    """
+    busca la cantidades de 
+    jugadores que hay en cada
+    jugador de la lista
+
+    lista_jugadores: es la 
+    lista en donde se van
+    a buscar las posiciones
+
+    retorno:
+    devuelve un diccionario
+    que tinene la posicion como
+    clave y la cantidad de jugadores
+    que se encontro en la posicion
+
+    """
+
+    dict_posiciones = {}
+
+    if len(lista_jugadores):
+
+        for elemento in lista_jugadores:
+
+            if elemento["posicion"] in dict_posiciones:
+
+                dict_posiciones[elemento["posicion"]] += 1
+
+            else:
+
+                dict_posiciones[elemento["posicion"]] = 1
+
+    return dict_posiciones
+
+def imprimir_diccioanrio(diccionario:dict) -> None:
+
+    """
+    imprime el diccioanrio
+    que se le pasa por parametros
+
+    diccionario: es el diccionario
+    cuyas claves y valores 
+    por consola
+
+    retorno:
+    no tiene
+    """
+
+
+    for key in diccionario:
+
+        print("{0}: {1}".format(key,diccionario[key]))
+
+#2
+
+def obtener_numero_de_All_star(jugador:dict) -> int:
+
+    """
+    buscar la cantidad
+    de veces fue que el jugador fue
+    All-star 
+
+    jugador: es el que se va a
+    buscar la cantidad, de veces
+    que fue All-star
+
+    retorno:
+    retornada un el numero de veces
+    que el jugador fue All-star
+    """
+
+
+    if len(jugador) > 0:
+
+        for indec in range(len(jugador["logros"])):
+            #empieza iterando los indices de la lista logros
+
+            if re.search("All-Star",jugador["logros"][indec]):
+                #buscar en el elemento si dice all-star
+
+                numero = re.findall(r'^\d++',jugador["logros"][indec])
+                #busca y almacena el numero
+
+                numero = int(numero[0])
+                #lo castea
+
+                return numero
+
+        return 0
+        #si no encuentra all-star devuelve 0
+
+def ordenar_por_catidad_All_star(lista_jugadores:list) -> list:
+    
+    """
+    ordena la lista en base
+    a cuantes veces
+    fue all-star, cada jugador
+    
+    lista_jugadores: es la lista
+    que se va a ordenar
+
+    retorno:
+    devolvera la misma lista,
+    pero ordenad desde el jugador
+    que fue mas veces Allstar
+    hasta el que menos
+    """
+
+
+    copia_lista = lista_jugadores[:]
+
+    if len(lista_jugadores) > 0:
+
+        ordenar = True
+
+        while ordenar:
+
+            ordenar = False
+
+            for indec in range(len(copia_lista)-1):
+                
+                All_star_indec_actual = obtener_numero_de_All_star(copia_lista[indec])
+                #busca el numero de veces All-star en el indice alctual
+
+                All_star_indec_siguente = obtener_numero_de_All_star(copia_lista[indec+1])
+                #busca el numero de veces All-star en el siguiente indice
+
+                if All_star_indec_actual < All_star_indec_siguente:
+                    
+                    ordenar = True
+
+                    copia_lista[indec],copia_lista[indec+1] = copia_lista[indec+1],copia_lista[indec]
+
+
+    return copia_lista
+
+def mostrar_lista_ordenada_por_Mayor_all_star(lista_jugadores:list) -> None:
+
+    """
+    muestra cuantas veces el jugador fue
+    All-star, y los muesta de mayor a menor
+
+    lista_jugadores: es la lista donde
+    se va a buscar, cuantas veces el jugador
+    fue All-star
+
+    retorno:
+    no tiene    
+    """
+
+
+    if len(lista_jugadores) > 0:
+
+        lista_ordenada = ordenar_por_catidad_All_star(lista_jugadores)
+
+        for elemento in  lista_ordenada:
+
+            numero_all_star = obtener_numero_de_All_star(elemento) 
+
+            print("{0} ({1} veces All-star)".format(elemento["nombre"],numero_all_star))
+
+
+#3
+
+def buscar_jugador_con_la_mejor_stadistica(lista_jugadores:list,valor_stadistico:str) -> str:
+    
+    """
+    busca el mayor valor de la estaditicas
+    de cada jugador en la lista 
+    
+    lista_jugadores: es la lista
+    donde se buscan y comparan 
+    los datos de los jugadores
+
+    valor_stadistico: es el valor 
+    que se va a compara y buscar
+    en la lista
+
+    retorno:
+    devuelve un texto con el nombre del
+    jugador que tiene el mayor valor 
+    espesificado en la lista 
+    """
+
+
+    flag_primer_vez = True
+
+    for jugador in lista_jugadores:
+
+        if flag_primer_vez:
+
+            flag_primer_vez= False
+
+            mayor_estaditica = jugador
+
+        elif jugador["estadisticas"][valor_stadistico] > mayor_estaditica["estadisticas"][valor_stadistico]:
+
+            mayor_estaditica = jugador
+
+        estaditica = valor_stadistico.replace("_"," ")
+
+        jugador_con_mejor_estadistica = "mayor canitdad de {0}: {1}({2})".format(estaditica,mayor_estaditica["nombre"],
+                                                                                 mayor_estaditica["estadisticas"][valor_stadistico])
+
+    return jugador_con_mejor_estadistica
+
+def los_mejores_jugadores_de_cada_estadistica(lista_jugadores:list) -> list:
+
+    """
+    muestra por consola 
+    el nombre con el mayor
+    valor esataditico de
+    cada una de las estaditicas
+
+    lista_jugadores: es la lista    
+    donde se van a buscar y mostrar
+    las mayores estaditicas
+
+    retorno:
+    devuelve una lista la mayor 
+    estadistica y el nombre
+    del jugador que tiene el
+    valor mas grande en esa
+    estaditica 
+    """
+
+    lista_estaditica = []
+    
+    lista_de_cada_staditica = []
+
+    for key in lista_jugadores[0]["estadisticas"]:
+
+        lista_estaditica.append(key)
+
+    #obtengo todas las claves de la bibliotcea estadisticas en una lista
+
+    for estadistica in lista_estaditica:
+
+       lista_de_cada_staditica.append(buscar_jugador_con_la_mejor_stadistica(lista_jugadores,estadistica))
+
+    return lista_de_cada_staditica
+
+def mostrar_el_mejor_de_cada_estaditica(lista_mejores)-> None:
+
+    """
+    muestra por consola,
+    una el mejor jugador de cada, estadictica
+
+    lista_mejores: es la lista que
+    se va a mostrar
+
+    retono:
+    no tiene
+    """
+
+    for elemento in lista_mejores:
+
+        print("-{}".format(elemento))
+
+#4
+
+def cantidad_de_veces_que_se_repite_un_nombre(lista_estadisticas:list) -> dict:
+
+    """
+    buscar en una lista con textos
+    cuantas veces se repite un nombre
+
+    lista_estadisticas: es una lista
+    el la que se va a buscar si se
+    encuentra un nombre y cuantas veces
+    se repite
+
+    retorno:
+    devolvera un diccioanrio en donde
+    tiene como clave el nombre encotrado
+    y como valor la cantidad de veces que
+    se repitio
+    """
+
+    dict_cantidad_repeticiones = {}
+
+    if len(lista_estadisticas)> 0:
+        
+        for elemento in lista_estadisticas: 
+
+            nombre = re.findall(r'[A-Z]{1}[a-z]+',elemento)
+            
+            nombre = " ".join(nombre)
+
+            if nombre in dict_cantidad_repeticiones:
+
+                dict_cantidad_repeticiones[nombre] += 1
+
+            else:
+
+                dict_cantidad_repeticiones[nombre] = 1
+
+    return dict_cantidad_repeticiones
+
+def mostrar_el_jugador_con_las_mejores_estadicticas(lista_jugadores:list) -> None:
+
+    """
+    busca y muestra, cual es
+    el jugador con las mejores
+    estadisticas
+
+    lista_jugadores: es la lista
+    en donde se va a realizar la busqueda
+
+    retono: 
+    no tine
+    """
+
+    mayores_estaditicas = los_mejores_jugadores_de_cada_estadistica(lista_jugadores)
+    #realiza denuevo lo solicitado en el punto antierior a este
+
+    jugadores_encontrados = cantidad_de_veces_que_se_repite_un_nombre(mayores_estaditicas)
+    #busca en la lista mayores_estaditicas, cuantas veces se repite un nombre
+
+    flag_primera_vez = True
+
+    for key in jugadores_encontrados:
+
+        if flag_primera_vez:
+            
+            flag_primera_vez = False
+            mayor_cantida = jugadores_encontrados[key]
+            nombre_del_mejor = key
+
+
+        elif jugadores_encontrados[key] > mayor_cantida:
+            
+            mayor_cantida = jugadores_encontrados[key]
+            nombre_del_mejor = key
+
+
+    print("el jugadores con las mejores estadisticas es {}".format(nombre_del_mejor))
+
+
+
 #menu
 def imprimir_opcines() -> None:
 
@@ -1178,13 +1573,21 @@ def imprimir_opcines() -> None:
           "13) Calcular y mostrar el jugador con la mayor cantidad de robos totales.\n"
           "14) Calcular y mostrar el jugador con la mayor cantidad de bloqueos totales.\n"
           "15) Ingresar un valor y mostrar los jugadores que tengan un porcentaje de tiros libres mayor.\n"
-          "16) Calcular y mostrar el promedio de puntos por partido del equipo excluyendo al jugador con la menor cantidad de puntos por partido.\n"
+          "16) Calcular y mostrar el promedio de puntos por partido del equipo excluyendo al jugador con" 
+               "la menor cantidad de puntos por partido.\n"
           "17) Calcular y mostrar el jugador con la mayor cantidad de logros obtenidos.\n"
           "18) Ingresar un valor y mostrar los jugadores que tengan un porcentaje de tiros triples mayor.\n"
           "19) Calcular y mostrar el jugador con la mayor cantidad de temporadas jugadas.\n"
-          "20) Ingresar un valor y mostrar los jugadores , ordenados por posición en la cancha, que hayan tenido un porcentaje de tiros de campo superior a ese valor.\n"
+          "20) Ingresar un valor y mostrar los jugadores , ordenados por posición en la cancha, que hayan tenido"
+               "un porcentaje de tiros de campo superior a ese valor.\n"
           "21) Generar un archivo .csv con los rankings de los jugadores en puntos,rebotes,asistencias,y robos.\n"
-          "22) salir.\n",end= "\n")
+          "\nextras:\n"
+          "22.Determinar la cantidad de jugadores que hay por cada posición\n"
+          "23.Mostrar la lista de jugadores ordenadas por la cantidad de All-Star de forma descendente\n"
+          "24.Determinar qué jugador tiene las mejores estadísticas en cada valor\n"
+          "25.Determinar qué jugador tiene las mejores estadísticas de todos.\n\n"
+
+          "26) salir.\n",end= "\n")
 
 def dream_team_app() -> None:
 
@@ -1198,13 +1601,17 @@ def dream_team_app() -> None:
     no tiene
     """
 
+    flag_guardar = False
+
     ruta_lectura = r"C:\Users\pablo\OneDrive\Escritorio\python - ejercicios\laboratorio 1 parcial\dt.json"
 
     lista_nba = leer_archivo_json(ruta_lectura)
 
-    numero_opcines = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]
+    numero_opcines = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26]
 
     while True:
+        
+
 
         imprimir_opcines()
 
@@ -1217,18 +1624,27 @@ def dream_team_app() -> None:
 
             case 2:
                 jugador_encontrado = buscar_jugador_por_indice(lista_nba)
+                
+                if len(jugador_encontrado) > 0:
+
+                    flag_guardar = True
 
             case 3:
+                if flag_guardar:
 
-                ruta_guardado = r"laboratorio 1 parcial\jugador_encontrado.csv"
+                    ruta_guardado = r"laboratorio 1 parcial\jugador_encontrado.csv"
 
-                if guardar_un_jugador(jugador_encontrado,ruta_guardado):
+                    if guardar_un_jugador(jugador_encontrado,ruta_guardado):
 
-                    print("el jugador se guardo correctamente")
+                        print("el jugador se guardo correctamente")
+
+                    else:
+
+                        print("error, al guardar un jugador")
 
                 else:
 
-                    print("error, al guardar un jugador")
+                    print("por favor, ingrese a la opcion 2 primero")
 
             case 4:
                 buscar_y_mostrar_logros(lista_nba)
@@ -1285,7 +1701,34 @@ def dream_team_app() -> None:
                 lista_posiciones = crear_posicines_de_jugadores(lista_nba)
 
                 guardar_posiciones(lista_posiciones)
+
             case 22:
+                lista_All_star = ordenar_por_catidad_All_star(lista_nba)
+
+                mostrar_lista_ordenada_por_Mayor_all_star(lista_All_star)
+
+            case 23:
+                posiciones = buscar_cantidad_de_posiciones_de_jugadores(lista_nba)
+
+                if len(posiciones):
+
+                    imprimir_diccioanrio(posiciones)
+            
+            case 24:
+                lista_estadisticas = buscar_jugador_con_la_mejor_stadistica(lista_nba)
+
+                if len(lista_estadisticas) > 0:
+
+                    mostrar_el_mejor_de_cada_estaditica(lista_estadisticas)
+
+            case 25:
+                mostrar_el_jugador_con_las_mejores_estadicticas(lista_nba)
+
+            case 26:
                 print("cerrando aplicacion....")
                 break
 
+lista_nba = leer_archivo_json(r"C:\Users\pablo\OneDrive\Escritorio\python - ejercicios\laboratorio 1 parcial\dt.json")
+
+
+mostrar_el_jugador_con_las_mejores_estadicticas(lista_nba)
